@@ -1,2 +1,2 @@
-# Met-Project
-Image Magick Package presentation
+# Met-Package presentation
+ Magick Package presentation
