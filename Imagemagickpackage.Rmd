@@ -1,0 +1,198 @@
+---
+title: 'Package Presentation: MAGICK'
+author: "OJO SEGUN ADEWALE"
+date: "20 June 2018"
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
+---
+
+```{r setup, include=FALSE}
+library("magick")
+library("knitr")
+```
+
+## An Overview
+
+- Description, An open source software 
+
+     + Author: Jeroen Ooms 
+
+     + Maintainer: Jeroen Ooms        
+
+     + Repository: CRAN
+
+     + Date/Publication: 2018-05-11 20:09:05 UTC
+     
+     + E-mail: jeroen@berkeley.edu
+
+
+## Introduction....
+
+What is Magick?
+
+   - Basically an open source animation software package
+      
+   - Tools that can be used to read, write, and manipulate images 
+     
+     in almost any format including TIFF, JPEG, PNG, PDF, photoCD
+     
+     and GIF.
+    
+    
+## Basic characteristics
+
+   - Reads image directly from a file path, URL, or raw vector with            image data
+
+   - Automatically converts and renders all common image formats
+ 
+   - Images are automatically previewed when printed to the console,           resulting in an interactive editing environment.
+   
+   - You can also save with the pipe functions; image_charcoal(eagle) %>%   
+     image_write ("E:/Rpackageprsentation/testing3.png")
+
+   
+
+
+## Downloading image from the internet
+
+```{r,echo=TRUE}
+#read image
+eagle <- image_read("https://i0.wp.com/eagle-science.org/wp-content/uploads/2015/10/eagle_test.png")
+#https://i0.wp.com/eagle-science.org/wp-content/uploads/2015/10/eagle_test.png
+print(eagle)
+```
+
+## Function: Image Transform
+```{r,echo=TRUE}
+image_trim(eagle)
+```
+
+## Function: Image Transform
+```{r,echo=TRUE}
+image_flip(eagle)
+```
+
+## Function: Image Transform
+```{r, echo=TRUE}
+image_negate(eagle)
+```
+
+## Function: Image Attribute
+
+```{r,echo=TRUE}
+image_comment(eagle, comment = NULL)
+image_info(eagle)
+```
+
+## Function: Image Colour
+```{r,echo=TRUE}  
+#adding background colour
+eagle %>% 
+  image_background("green") %>% 
+  image_flatten() %>%
+  image_border("red", "10x10")
+```
+
+## Function: Image Colour
+```{r,echo=TRUE}
+#To plot and export apart from writing the code
+x<-eagle %>% 
+  image_background("green") %>% 
+  image_flatten() %>%
+  image_border("red", "10x10")
+plot(x)
+#write image and it will automatically save it in the specified folder
+image_rotate(eagle, 1) %>% image_write("E:/Rpackageprsentation/testing1.png")
+image_rotate(x, 1) %>% image_write("E:/Rpackageprsentation/testing2.png")
+```
+
+## Function: Image Special Effect
+
+```{r,echo=TRUE}
+  image_oilpaint(eagle)
+```
+
+## Function: Image Special Effect
+```{r,echo=TRUE}
+  image_charcoal(eagle) 
+```
+
+## Function: Image Special Effect
+```{r,echo=TRUE}
+  image_edge(eagle)
+```
+
+## Function: Image Special Effect
+```{r,echo=T}
+image_noise(eagle, noisetype = "gaussian")
+```
+
+## Function: Image to ggplot
+
+```{r,echo=TRUE}
+#Plot with base R plotting magick using ggplot
+#convert image to raster
+   image_raster(eagle, frame = 1, tidy = TRUE)
+  image_ggplot(eagle)
+```
+
+## Function: Image to ggplot
+```{r,echo=TRUE}
+image_ggplot(eagle)
+```
+
+## Function: Image to ggplot2
+```{r,echo=TRUE}
+library("ggplot2")
+  myplot <- image_ggplot(eagle)
+  myplot + ggtitle("Explore species-environment interaction")
+```
+
+## Function: Image frames and Animation
+```{r,echo=TRUE}
+ #Download/read first image
+  nn<- image_read("E:/Rpackageprsentation/style2/img_nnet.jpg")
+  image_trim(nn)
+```
+
+
+## Function: Image frames and Animation
+```{r,echo=TRUE}
+#Download/read second image
+  rf<- image_read("E:/Rpackageprsentation/style2/rfplot.png")
+  image_trim(rf)
+```
+
+## Function:  Image frames and Animation
+
+```{r,echo=TRUE}
+  compare <- c(nn, rf)
+  compare <- image_scale(compare, "400x400")
+#create morphine animation
+  (animation1 <- image_animate(compare))    #This is too fast
+  image_write(animation1, "E:/Rpackageprsentation/testing4.gif")
+```
+
+## Function:  Image frames and Animation
+
+```{r,echo=TRUE}
+#Morph effect  <--- Quite steady
+  (animation2 <- image_animate(image_morph(compare, frames = 20)))
+```
+
+## Conclusion
+
+  This is another medium of animation that can be carried out in 
+  
+  R which is quite more interesting to explore.
+ 
+ 
+  
+  For further analysis and information about this package
+ 
+  https://cran.r-project.org/web/packages/magic/index.html
+
+
+
+  Thank you all for  your time
